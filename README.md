@@ -176,7 +176,3 @@ Dr. Abu-hadhoud's roadmap provides a structured path for learning programming fr
 - GitHub: [@MohammedAlrehaili](https://github.com/MohammedAlrehaili)
 
 ---
-
-## 📄 License
-
-This project is open source and available for educational purposes.
