@@ -1,6 +1,6 @@
 # 📒 ContactsConsoleApp
 
-A C# console application for managing contacts, built with a clean **3-tier architecture** using ADO.NET and SQL Server.
+A C# console application for managing **contacts and countries**, built with a clean **3-tier architecture** using ADO.NET and SQL Server.
 
 > 🎓 This project is part of the learning roadmap by **Dr. Mohammed Abu-hadhoud**
 > **Course #18 — C# & Database**
@@ -10,7 +10,7 @@ A C# console application for managing contacts, built with a clean **3-tier arch
 
 ## 📌 Overview
 
-ContactsConsoleApp is a simple yet well-structured contacts manager that demonstrates how to build a layered C# application connected to a SQL Server database. It covers core CRUD operations (Create, Read, Update, Delete) following software engineering best practices.
+ContactsConsoleApp is a structured contacts manager that demonstrates how to build a layered C# application connected to a SQL Server database. It covers full CRUD operations for two entities — **Contacts** and **Countries** — following software engineering best practices.
 
 ---
 
@@ -28,13 +28,13 @@ The project follows a **3-Tier Architecture**:
 ┌────────────────▼────────────────────┐
 │     Business Logic Layer            │
 │     ContactsBussinessLayer          │
-│     (clsContact.cs)                 │
+│     (clsContact.cs / clsCountry.cs) │
 └────────────────┬────────────────────┘
                  │
 ┌────────────────▼────────────────────┐
 │     Data Access Layer               │
 │     ContactsDataAccessLayer         │
-│     (ContactData.cs)                │
+│     (ContactData.cs/CountryData.cs) │
 └─────────────────────────────────────┘
 ```
 
@@ -48,12 +48,21 @@ The project follows a **3-Tier Architecture**:
 
 ## ✨ Features
 
-- ➕ **Add** a new contact
-- 🔍 **Find** a contact by ID
-- ✏️ **Update** an existing contact
-- 🗑️ **Delete** a contact
-- 📋 **List** all contacts
-- ✅ **Check** if a contact exists
+### 👤 Contacts
+- ➕ Add a new contact
+- 🔍 Find a contact by ID
+- ✏️ Update an existing contact
+- 🗑️ Delete a contact
+- 📋 List all contacts
+- ✅ Check if a contact exists
+
+### 🌍 Countries
+- ➕ Add a new country
+- 🔍 Find a country by ID or name
+- ✏️ Update an existing country
+- 🗑️ Delete a country
+- 📋 List all countries
+- ✅ Check if a country exists (by ID or name)
 
 ---
 
@@ -63,14 +72,15 @@ The project follows a **3-Tier Architecture**:
 ContactsConsoleApp/
 │
 ├── ContactsConsoleApp/                  # Presentation Layer
-│   ├── Program.cs                       # Entry point & console operations
-│   └── ContactsConsoleApp.slnx
+│   └── Program.cs                       # Entry point & console operations
 │
 ├── ContactsBussinessLayer/              # Business Logic Layer
-│   └── Contact.cs                       # clsContact with Save/Find/Delete logic
+│   ├── Contact.cs                       # clsContact — contacts business logic
+│   └── Country.cs                       # clsCountry — countries business logic
 │
 └── ContactsDataAccessLayer/             # Data Access Layer
-    ├── ContactData.cs                   # Raw SQL operations (ADO.NET)
+    ├── ContactData.cs                   # SQL operations for Contacts
+    ├── CountryData.cs                   # SQL operations for Countries
     └── clsDataAccessSettings.cs        # Connection string config
 ```
 
@@ -80,7 +90,7 @@ ContactsConsoleApp/
 
 The app connects to a **SQL Server** database named `ContactsDB`.
 
-### `Contacts` Table Schema
+### `Contacts` Table
 
 | Column | Type | Notes |
 |---|---|---|
@@ -91,8 +101,17 @@ The app connects to a **SQL Server** database named `ContactsDB`.
 | `Phone` | NVARCHAR | Required |
 | `Address` | NVARCHAR | Required |
 | `DateOfBirth` | DATETIME | Required |
-| `CountryID` | INT | Foreign Key |
+| `CountryID` | INT | Foreign Key → Countries |
 | `ImagePath` | NVARCHAR | Nullable |
+
+### `Countries` Table
+
+| Column | Type | Notes |
+|---|---|---|
+| `CountryID` | INT | Primary Key, Identity |
+| `CountryName` | NVARCHAR | Required |
+| `Code` | NVARCHAR | Country code (e.g. SA, AE) |
+| `PhoneCode` | NVARCHAR | Dial code (e.g. 966, 971) |
 
 ---
 
@@ -114,7 +133,7 @@ The app connects to a **SQL Server** database named `ContactsDB`.
 2. **Create the database**
    - Open SQL Server Management Studio (SSMS)
    - Create a database named `ContactsDB`
-   - Create the `Contacts` table using the schema above
+   - Create the `Countries` and `Contacts` tables using the schemas above
 
 3. **Configure the connection string**
    Open `ContactsDataAccessLayer/clsDataAccessSettings.cs` and update:
@@ -128,11 +147,12 @@ The app connects to a **SQL Server** database named `ContactsDB`.
 
 ## 💡 Key Concepts Demonstrated
 
-- **3-Tier Architecture** — clean separation of concerns
+- **3-Tier Architecture** — clean separation of concerns across three layers
 - **ADO.NET** — `SqlConnection`, `SqlCommand`, `SqlDataReader`, `DataTable`
-- **OOP in C#** — encapsulation, private constructors, static factory methods
+- **OOP in C#** — encapsulation, private constructors, static factory methods, method overloading
 - **Enum-based mode switching** — `enMode.AddNew` vs `enMode.Update` for smart `Save()` logic
 - **Parameterized queries** — protection against SQL injection
+- **Reusable pattern** — the same architecture pattern applied consistently to both `Contact` and `Country` entities
 
 ---
 
@@ -147,3 +167,16 @@ This project was built as part of:
 | **Course** | C# & Database — Course #18 |
 
 Dr. Abu-hadhoud's roadmap provides a structured path for learning programming from the ground up through practical, real-world projects.
+
+---
+
+## 👨‍💻 Author
+
+**Mohammed Alrehaili**
+- GitHub: [@MohammedAlrehaili](https://github.com/MohammedAlrehaili)
+
+---
+
+## 📄 License
+
+This project is open source and available for educational purposes.
