@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ContactsConsoleApp
 {
@@ -117,10 +118,119 @@ namespace ContactsConsoleApp
             }
         }
 
+        static void FindCountryByName(string name)
+        {
+            clsCountry country = clsCountry.Find(name);
+
+            if (country != null)
+            {
+                Console.WriteLine(country.ID + " " + country.CountryName + " " + country.CountryCode + " " + country.PhoneCode);
+            }
+            else
+            {
+                Console.WriteLine("Country [" + name + "] Not Found!");
+            }
+        }
+
+        static void FindCountryByID(int ID)
+        {
+            clsCountry country = clsCountry.Find(ID);
+            if (country != null)
+            {
+                Console.WriteLine(country.ID + " " + country.CountryName + " " + country.CountryCode + " " + country.PhoneCode);
+            }
+            else
+            {
+                Console.WriteLine("Country [" + ID + "] Not Found!");
+            }
+        }
+
+        static void IsCountryExisitByID(int ID)
+        {
+            if(clsCountry.IsCountryExisit(ID))
+            {
+                Console.WriteLine("Yes, Country is there.");
+            }
+            else
+            {
+                Console.WriteLine("No, Country Is not there.");
+            }
+        }
+
+        static void IsCountryExisitByName(string name)
+        {
+            if (clsCountry.IsCountryExisit(name))
+            {
+                Console.WriteLine("Yes, Country is there.");
+            }
+            else
+            {
+                Console.WriteLine("No, Country Is not there.");
+            }
+        }
+
+        static void AddNewCountry()
+        {
+            clsCountry country = new clsCountry();
+
+            country.CountryName = "Saudi Arabia";
+            country.CountryCode = "SA";
+            country.PhoneCode = "966";
+
+            if(country.Save())
+            {
+                Console.WriteLine("Country Added Sucessfully with id= " + country.ID);
+            }
+        }
+
+        static void UpdateCountry(int ID)
+        {
+            clsCountry country = clsCountry.Find(ID);
+            if (country != null)
+            {
+                country.CountryName = "UAE";
+                country.CountryCode = "AE";
+                country.PhoneCode = "971";
+                if (country.Save())
+                {
+                    Console.WriteLine("Country Updated Successfully");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Not Found!");
+            }
+        }
+
+        static void DeleteCountry(int ID)
+        {
+            if (clsCountry.IsCountryExisit(ID))
+                if (clsCountry.DeleteCountry(ID))
+                {
+                    Console.WriteLine("Country Deleted Sucessfully");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to delete Country");
+                }
+            else
+                Console.WriteLine("The Country with id = " + ID + " is not Found");
+        }
+
+        static void ListCountries()
+        {
+            DataTable dataTable = clsCountry.GetAllCountries();
+            Console.WriteLine("Countries Data:");
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine($"{row["CountryID"]}, {row["CountryName"]} {row["Code"]} {row["PhoneCode"]}");
+            }
+        }
+
         static void Main(string[] args)
         {
 
-            DeleteContact(19);
+            ListCountries();
         }
     }
 }
